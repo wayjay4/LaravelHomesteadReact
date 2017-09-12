@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    My Laravel: ReactJS <br /> now with GitHub
+                    My Laravel: ReactJS
                 </div>
 
                 <div class="links">
