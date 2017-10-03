@@ -18,6 +18,8 @@
                 </div>
             </div>
         </div>
+        
+        <div id="example"></div>
     </div>
 </div>
 @endsection
