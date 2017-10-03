@@ -29,5 +29,5 @@ render(
       <Route path="/add-item" component={CreateItem} />
     </Route>
   </Router>,
-  document.getElementById('example')
+  document.getElementById('root')
 );

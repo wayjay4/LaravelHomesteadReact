@@ -18,9 +18,12 @@ class Master extends Component {
             </ul>
           </div>
       </nav>
-          <div>
-              {this.props.children}
-          </div>
+      <div>
+          {this.props.children}
+      </div>
+      <div>
+        <h1>My ReactJs 2018!</h1>
+      </div>
       </div>
     )
   }

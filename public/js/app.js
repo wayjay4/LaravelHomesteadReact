@@ -13602,7 +13602,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"])(__WEBPACK_IMPORTED_MOD
     { path: '/', component: __WEBPACK_IMPORTED_MODULE_3__components_Master__["a" /* default */] },
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["Route"], { path: '/add-item', component: __WEBPACK_IMPORTED_MODULE_4__components_CreateItem__["a" /* default */] })
   )
-), document.getElementById('example'));
+), document.getElementById('root'));
 
 /***/ }),
 /* 122 */
@@ -59513,6 +59513,15 @@ var Master = function (_Component) {
           'div',
           null,
           this.props.children
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            null,
+            'My ReactJs 2018!'
+          )
         )
       );
     }
@@ -59580,6 +59589,9 @@ var CreateItem = function (_Component) {
         name: this.state.productName,
         price: this.state.productPrice
       };
+
+      alert("Product Name: '" + products['name'] + "' Price: '$" + products['price'] + "'");
+
       var uri = 'http://laravelreact.dev/items';
       axios.post(uri, products).then(function (response) {
         // browserHistory.push('/display-item');

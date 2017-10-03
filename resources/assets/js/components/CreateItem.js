@@ -27,6 +27,9 @@ class CreateItem extends Component {
       name: this.state.productName,
       price: this.state.productPrice
     }
+
+    alert("Product Name: '"+products['name']+"' Price: '$"+products['price']+"'");
+
     let uri = 'http://laravelreact.dev/items';
     axios.post(uri, products).then((response) => {
       // browserHistory.push('/display-item');
