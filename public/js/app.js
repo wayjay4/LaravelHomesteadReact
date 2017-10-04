@@ -53809,6 +53809,16 @@ var Master = function (_Component) {
       this.setState({ projects: projects });
     }
   }, {
+    key: 'handleDeleteProject',
+    value: function handleDeleteProject(id) {
+      var projects = this.state.projects;
+      var index = projects.findIndex(function (x) {
+        return x.id === id;
+      });
+      projects.splice(index, 1);
+      this.setState({ projects: projects });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -53821,7 +53831,7 @@ var Master = function (_Component) {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__AddProject__["a" /* default */], { addProject: this.handleAddProject.bind(this) }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Projects__["a" /* default */], { projects: this.state.projects })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Projects__["a" /* default */], { projects: this.state.projects, onDelete: this.handleDeleteProject.bind(this) })
       );
     }
   }]);
@@ -53860,15 +53870,22 @@ var Projects = function (_Component) {
   }
 
   _createClass(Projects, [{
+    key: 'deleteProject',
+    value: function deleteProject(id) {
+      this.props.onDelete(id);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var projectItems = void 0;
 
       if (this.props.projects) {
         projectItems = this.props.projects.map(function (project) {
           //console.log(project);
 
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ProjectItem__["a" /* default */], { key: project.title, project: project });
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ProjectItem__["a" /* default */], { key: project.title, project: project, onDelete: _this2.deleteProject.bind(_this2) });
         });
       }
 
@@ -53921,6 +53938,12 @@ var ProjectItem = function (_Component) {
   }
 
   _createClass(ProjectItem, [{
+    key: "deleteProject",
+    value: function deleteProject(id) {
+      //console.log('testing delete');
+      this.props.onDelete(id);
+    }
+  }, {
     key: "render",
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -53929,10 +53952,15 @@ var ProjectItem = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "strong",
           null,
-          this.props.project.id
+          this.props.project.title
         ),
         ": ",
-        this.props.project.category
+        this.props.project.category,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "a",
+          { href: "#", onClick: this.deleteProject.bind(this, this.props.project.id) },
+          "\u274C"
+        )
       );
     }
   }]);
