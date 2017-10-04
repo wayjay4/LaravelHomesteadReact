@@ -7,6 +7,12 @@ class Master extends Component {
   constructor(){
     super();
     this.state = {
+      projects: []
+    }
+  }
+
+  componentWillMount(){
+    this.setState({
       projects: [
         {
           title: 'Business Website',
@@ -21,14 +27,14 @@ class Master extends Component {
           category: 'Web Development'
         }
       ]
-    }
+    });
   }
 
   render(){
     return (
       <div className="container">
         <h1>My App</h1>
-        
+
         <Projects projects={this.state.projects} />
       </div>
     )
