@@ -1,29 +1,35 @@
 // Master.js
 import React, {Component} from 'react';
-import { Router, Route, Link } from 'react-router';
+//import { Router, Route, Link } from 'react-router';
+import Projects from './Projects';
 
 class Master extends Component {
+  constructor(){
+    super();
+    this.state = {
+      projects: [
+        {
+          title: 'Business Website',
+          category: 'Web Design'
+        },
+        {
+          title: 'Social App',
+          category: 'Mobile Development'
+        },
+        {
+          title: 'Ecommerce Shopping Cart',
+          category: 'Web Development'
+        }
+      ]
+    }
+  }
+
   render(){
     return (
       <div className="container">
-        <nav className="navbar navbar-default">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <a className="navbar-brand" href="#">AppDividend</a>
-            </div>
-            <ul className="nav navbar-nav">
-              <li className="active"><Link to="/">Home</Link></li>
-              <li><Link to="add-item">Create Item</Link></li>
-              <li><Link to="display-item">Display Item</Link></li>
-            </ul>
-          </div>
-      </nav>
-      <div>
-          {this.props.children}
-      </div>
-      <div>
-        <h1>My ReactJs 2018!</h1>
-      </div>
+        <h1>My App</h1>
+        
+        <Projects projects={this.state.projects} />
       </div>
     )
   }
