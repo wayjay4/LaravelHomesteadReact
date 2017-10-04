@@ -51,9 +51,9 @@ render(
 import React from 'react';
 import { render } from 'react-dom';
 
-import Master from './components/tutor3_reactjs_series1_14/Master';
+import Layout from './components/tutor3_reactjs_series1_14/Layout';
 
 render(
-  <Master />,
+  <Layout />,
   document.getElementById('root')
 );
