@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProjectItem from './ProjectItem';
+import PropTypes from 'prop-types'; // ES6
 
 class Projects extends Component {
   deleteProject(id){
@@ -28,6 +29,12 @@ class Projects extends Component {
       </div>
     );
   }
+}
+
+// propTypes is a way to validate your component's properties
+Projects.propTypes = {
+  projects : PropTypes.array,
+  onDelete : PropTypes.func
 }
 
 export default Projects;
