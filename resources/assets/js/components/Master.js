@@ -2,18 +2,37 @@
 import React, {Component} from 'react';
 //import { Router, Route, Link } from 'react-router';
 import uuid from 'uuid';
+import $ from 'jquery';
 import Projects from './Projects';
 import AddProject from './AddProject';
+import Todos from './Todos';
 
 class Master extends Component {
   constructor(){
     super();
     this.state = {
-      projects: []
+      projects : [],
+      todos : []
     }
   }
 
-  componentWillMount(){
+  getTodos(){
+    $.ajax({
+      url : 'https://jsonplaceholder.typicode.com/todos',
+      dataType : 'json',
+      cache : false,
+      success : function(data){
+        this.setState({todos : data}, function(){
+          console.log(this.state);
+        });
+      }.bind(this),
+      error : function(xhr, status, err){
+        console.log(err);
+      }
+    });
+  }
+
+  getProjects(){
     this.setState({
       projects: [
         {
@@ -33,6 +52,15 @@ class Master extends Component {
         }
       ]
     });
+  }
+
+  componentWillMount(){
+    this.getProjects();
+    this.getTodos();
+  }
+
+  componentDidMount(){
+    this.getTodos();
   }
 
   handleAddProject(project){
@@ -59,6 +87,10 @@ class Master extends Component {
         <hr />
 
         <Projects projects={this.state.projects} onDelete={this.handleDeleteProject.bind(this)} />
+
+        <hr />
+
+        <Todos todos={this.state.todos} />
       </div>
     )
   }

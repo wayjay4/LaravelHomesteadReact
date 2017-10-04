@@ -54026,8 +54026,11 @@ module.exports = ReactDOMInvalidARIAHook;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_uuid__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Projects__ = __webpack_require__(226);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AddProject__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Projects__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AddProject__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Todos__ = __webpack_require__(241);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54043,6 +54046,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
+
 var Master = function (_Component) {
   _inherits(Master, _Component);
 
@@ -54052,14 +54057,32 @@ var Master = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Master.__proto__ || Object.getPrototypeOf(Master)).call(this));
 
     _this.state = {
-      projects: []
+      projects: [],
+      todos: []
     };
     return _this;
   }
 
   _createClass(Master, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'getTodos',
+    value: function getTodos() {
+      __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.ajax({
+        url: 'https://jsonplaceholder.typicode.com/todos',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+          this.setState({ todos: data }, function () {
+            console.log(this.state);
+          });
+        }.bind(this),
+        error: function error(xhr, status, err) {
+          console.log(err);
+        }
+      });
+    }
+  }, {
+    key: 'getProjects',
+    value: function getProjects() {
       this.setState({
         projects: [{
           id: __WEBPACK_IMPORTED_MODULE_1_uuid___default.a.v4(),
@@ -54075,6 +54098,17 @@ var Master = function (_Component) {
           category: 'Web Development'
         }]
       });
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.getProjects();
+      this.getTodos();
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getTodos();
     }
   }, {
     key: 'handleAddProject',
@@ -54105,9 +54139,11 @@ var Master = function (_Component) {
           null,
           'My App'
         ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__AddProject__["a" /* default */], { addProject: this.handleAddProject.bind(this) }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__AddProject__["a" /* default */], { addProject: this.handleAddProject.bind(this) }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Projects__["a" /* default */], { projects: this.state.projects, onDelete: this.handleDeleteProject.bind(this) })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Projects__["a" /* default */], { projects: this.state.projects, onDelete: this.handleDeleteProject.bind(this) }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Todos__["a" /* default */], { todos: this.state.todos })
       );
     }
   }]);
@@ -54721,6 +54757,135 @@ if (true) {
   module.exports = require('./factoryWithThrowingShims')();
 }
 
+
+/***/ }),
+/* 241 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TodoItem__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+ // ES6
+
+var Todos = function (_Component) {
+  _inherits(Todos, _Component);
+
+  function Todos() {
+    _classCallCheck(this, Todos);
+
+    return _possibleConstructorReturn(this, (Todos.__proto__ || Object.getPrototypeOf(Todos)).apply(this, arguments));
+  }
+
+  _createClass(Todos, [{
+    key: 'render',
+    value: function render() {
+      var todoItems = void 0;
+
+      if (this.props.todos) {
+        todoItems = this.props.todos.map(function (todo) {
+          //console.log(project);
+
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__TodoItem__["a" /* default */], { key: todo.title, todo: todo });
+        });
+      }
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'Todos' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h3',
+          null,
+          'ToDo List'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'ul',
+          null,
+          todoItems
+        )
+      );
+    }
+  }]);
+
+  return Todos;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+// propTypes is a way to validate your component's properties
+
+
+Todos.propTypes = {
+  todos: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Todos);
+
+/***/ }),
+/* 242 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+ // ES6
+
+var TodoItem = function (_Component) {
+  _inherits(TodoItem, _Component);
+
+  function TodoItem() {
+    _classCallCheck(this, TodoItem);
+
+    return _possibleConstructorReturn(this, (TodoItem.__proto__ || Object.getPrototypeOf(TodoItem)).apply(this, arguments));
+  }
+
+  _createClass(TodoItem, [{
+    key: 'render',
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'li',
+        { className: 'Todo' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'strong',
+          null,
+          this.props.todo.title
+        )
+      );
+    }
+  }]);
+
+  return TodoItem;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+// propTypes is a way to validate your component's properties
+
+
+TodoItem.propTypes = {
+  todo: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (TodoItem);
 
 /***/ })
 /******/ ]);
