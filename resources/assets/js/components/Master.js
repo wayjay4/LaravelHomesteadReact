@@ -1,6 +1,7 @@
 // Master.js
 import React, {Component} from 'react';
 //import { Router, Route, Link } from 'react-router';
+import uuid from 'uuid';
 import Projects from './Projects';
 import AddProject from './AddProject';
 
@@ -16,14 +17,17 @@ class Master extends Component {
     this.setState({
       projects: [
         {
+          id: uuid.v4(),
           title: 'Business Website',
           category: 'Web Design'
         },
         {
+          id:uuid.v4(),
           title: 'Social App',
           category: 'Mobile Development'
         },
         {
+          id:uuid.v4(),
           title: 'Ecommerce Shopping Cart',
           category: 'Web Development'
         }
@@ -44,6 +48,8 @@ class Master extends Component {
         <h1>My App</h1>
 
         <AddProject addProject={this.handleAddProject.bind(this)} />
+
+        <hr />
 
         <Projects projects={this.state.projects} />
       </div>
