@@ -10575,89 +10575,9 @@ function getHostComponentFromComposite(inst) {
 module.exports = getHostComponentFromComposite;
 
 /***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var v1 = __webpack_require__(224);
-var v4 = __webpack_require__(225);
-
-var uuid = v4;
-uuid.v1 = v1;
-uuid.v4 = v4;
-
-module.exports = uuid;
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-var rng;
-
-var crypto = global.crypto || global.msCrypto; // for IE 11
-if (crypto && crypto.getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-  rng = function whatwgRNG() {
-    crypto.getRandomValues(rnds8);
-    return rnds8;
-  };
-}
-
-if (!rng) {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var rnds = new Array(16);
-  rng = function() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-module.exports = rng;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52)))
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports) {
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  return bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
-}
-
-module.exports = bytesToUuid;
-
-
-/***/ }),
+/* 93 */,
+/* 94 */,
+/* 95 */,
 /* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10675,7 +10595,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_tutor2_reactjs_crashcourse_Master__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_tutor3_reactjs_series1_14_Master__ = __webpack_require__(320);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -10711,23 +10631,23 @@ __webpack_require__(98);
    */
 
 // app.js : tutor2_reactjs_crashcourse
-
-
-
-
-
-Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"])(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_tutor2_reactjs_crashcourse_Master__["a" /* default */], null), document.getElementById('root'));
+{} /*
+   import React from 'react';
+   import { render } from 'react-dom';
+   import Master from './components/tutor2_reactjs_crashcourse/Master';
+   render(
+    <Master />,
+    document.getElementById('root')
+   );
+   */
 
 // app.js : tutor3_reactjs_series1_14
-{/*
-  import React from 'react';
-  import { render } from 'react-dom';
-  import Master from './components/tutor3_reactjs_series1_14/Master';
-  render(
-   <Master />,
-   document.getElementById('root')
-  );
-  */}
+
+
+
+
+
+Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"])(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_tutor3_reactjs_series1_14_Master__["a" /* default */], null), document.getElementById('root'));
 
 /***/ }),
 /* 98 */
@@ -54044,147 +53964,8 @@ module.exports = ReactDOMInvalidARIAHook;
 
 /***/ }),
 /* 223 */,
-/* 224 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var rng = __webpack_require__(94);
-var bytesToUuid = __webpack_require__(95);
-
-// **`v1()` - Generate time-based UUID**
-//
-// Inspired by https://github.com/LiosK/UUID.js
-// and http://docs.python.org/library/uuid.html
-
-// random #'s we need to init node and clockseq
-var _seedBytes = rng();
-
-// Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-var _nodeId = [
-  _seedBytes[0] | 0x01,
-  _seedBytes[1], _seedBytes[2], _seedBytes[3], _seedBytes[4], _seedBytes[5]
-];
-
-// Per 4.2.2, randomize (14 bit) clockseq
-var _clockseq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
-
-// Previous uuid creation time
-var _lastMSecs = 0, _lastNSecs = 0;
-
-// See https://github.com/broofa/node-uuid for API details
-function v1(options, buf, offset) {
-  var i = buf && offset || 0;
-  var b = buf || [];
-
-  options = options || {};
-
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
-
-  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
-
-  // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
-
-  // Time since last uuid creation (in msecs)
-  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
-
-  // Per 4.2.1.2, Bump clockseq on clock regression
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = clockseq + 1 & 0x3fff;
-  }
-
-  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
-  }
-
-  // Per 4.2.1.2 Throw error if too many uuids are requested
-  if (nsecs >= 10000) {
-    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq;
-
-  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-  msecs += 12219292800000;
-
-  // `time_low`
-  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = tl >>> 24 & 0xff;
-  b[i++] = tl >>> 16 & 0xff;
-  b[i++] = tl >>> 8 & 0xff;
-  b[i++] = tl & 0xff;
-
-  // `time_mid`
-  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
-  b[i++] = tmh >>> 8 & 0xff;
-  b[i++] = tmh & 0xff;
-
-  // `time_high_and_version`
-  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-  b[i++] = tmh >>> 16 & 0xff;
-
-  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-  b[i++] = clockseq >>> 8 | 0x80;
-
-  // `clock_seq_low`
-  b[i++] = clockseq & 0xff;
-
-  // `node`
-  var node = options.node || _nodeId;
-  for (var n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
-  }
-
-  return buf ? buf : bytesToUuid(b);
-}
-
-module.exports = v1;
-
-
-/***/ }),
-/* 225 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var rng = __webpack_require__(94);
-var bytesToUuid = __webpack_require__(95);
-
-function v4(options, buf, offset) {
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || bytesToUuid(rnds);
-}
-
-module.exports = v4;
-
-
-/***/ }),
+/* 224 */,
+/* 225 */,
 /* 226 */,
 /* 227 */,
 /* 228 */,
@@ -54204,40 +53985,7 @@ module.exports = v4;
 /* 237 */,
 /* 238 */,
 /* 239 */,
-/* 240 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (true) {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(131)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = require('./factoryWithThrowingShims')();
-}
-
-
-/***/ }),
+/* 240 */,
 /* 241 */,
 /* 242 */,
 /* 243 */,
@@ -54311,19 +54059,18 @@ if (true) {
 /* 311 */,
 /* 312 */,
 /* 313 */,
-/* 314 */
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_uuid__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Projects__ = __webpack_require__(315);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AddProject__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Todos__ = __webpack_require__(318);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54334,12 +54081,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // Master.js
 
-//import { Router, Route, Link } from 'react-router';
-
-
-
-
-
 
 var Master = function (_Component) {
   _inherits(Master, _Component);
@@ -54347,96 +54088,20 @@ var Master = function (_Component) {
   function Master() {
     _classCallCheck(this, Master);
 
-    var _this = _possibleConstructorReturn(this, (Master.__proto__ || Object.getPrototypeOf(Master)).call(this));
-
-    _this.state = {
-      projects: [],
-      todos: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (Master.__proto__ || Object.getPrototypeOf(Master)).apply(this, arguments));
   }
 
   _createClass(Master, [{
-    key: 'getTodos',
-    value: function getTodos() {
-      __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.ajax({
-        url: 'https://jsonplaceholder.typicode.com/todos',
-        dataType: 'json',
-        cache: false,
-        success: function (data) {
-          this.setState({ todos: data }, function () {
-            console.log(this.state);
-          });
-        }.bind(this),
-        error: function error(xhr, status, err) {
-          console.log(err);
-        }
-      });
-    }
-  }, {
-    key: 'getProjects',
-    value: function getProjects() {
-      this.setState({
-        projects: [{
-          id: __WEBPACK_IMPORTED_MODULE_1_uuid___default.a.v4(),
-          title: 'Business Website',
-          category: 'Web Design'
-        }, {
-          id: __WEBPACK_IMPORTED_MODULE_1_uuid___default.a.v4(),
-          title: 'Social App',
-          category: 'Mobile Development'
-        }, {
-          id: __WEBPACK_IMPORTED_MODULE_1_uuid___default.a.v4(),
-          title: 'Ecommerce Shopping Cart',
-          category: 'Web Development'
-        }]
-      });
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.getProjects();
-      this.getTodos();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.getTodos();
-    }
-  }, {
-    key: 'handleAddProject',
-    value: function handleAddProject(project) {
-      //console.log(project);
-      var projects = this.state.projects;
-      projects.push(project);
-      this.setState({ projects: projects });
-    }
-  }, {
-    key: 'handleDeleteProject',
-    value: function handleDeleteProject(id) {
-      var projects = this.state.projects;
-      var index = projects.findIndex(function (x) {
-        return x.id === id;
-      });
-      projects.splice(index, 1);
-      this.setState({ projects: projects });
-    }
-  }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'container' },
+        "div",
+        { className: "container" },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h1',
+          "h1",
           null,
-          'My App'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__AddProject__["a" /* default */], { addProject: this.handleAddProject.bind(this) }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Projects__["a" /* default */], { projects: this.state.projects, onDelete: this.handleDeleteProject.bind(this) }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Todos__["a" /* default */], { todos: this.state.todos })
+          "My App: Tutorial 3"
+        )
       );
     }
   }]);
@@ -54445,415 +54110,6 @@ var Master = function (_Component) {
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Master);
-
-/***/ }),
-/* 315 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ProjectItem__ = __webpack_require__(316);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
- // ES6
-
-var Projects = function (_Component) {
-  _inherits(Projects, _Component);
-
-  function Projects() {
-    _classCallCheck(this, Projects);
-
-    return _possibleConstructorReturn(this, (Projects.__proto__ || Object.getPrototypeOf(Projects)).apply(this, arguments));
-  }
-
-  _createClass(Projects, [{
-    key: 'deleteProject',
-    value: function deleteProject(id) {
-      this.props.onDelete(id);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var projectItems = void 0;
-
-      if (this.props.projects) {
-        projectItems = this.props.projects.map(function (project) {
-          //console.log(project);
-
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ProjectItem__["a" /* default */], { key: project.title, project: project, onDelete: _this2.deleteProject.bind(_this2) });
-        });
-      }
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'Projects' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h3',
-          null,
-          'My Projects'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          null,
-          projectItems
-        )
-      );
-    }
-  }]);
-
-  return Projects;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// propTypes is a way to validate your component's properties
-
-
-Projects.propTypes = {
-  projects: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
-  onDelete: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Projects);
-
-/***/ }),
-/* 316 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
- // ES6
-
-var ProjectItem = function (_Component) {
-  _inherits(ProjectItem, _Component);
-
-  function ProjectItem() {
-    _classCallCheck(this, ProjectItem);
-
-    return _possibleConstructorReturn(this, (ProjectItem.__proto__ || Object.getPrototypeOf(ProjectItem)).apply(this, arguments));
-  }
-
-  _createClass(ProjectItem, [{
-    key: 'deleteProject',
-    value: function deleteProject(id) {
-      //console.log('testing delete');
-      this.props.onDelete(id);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'li',
-        { className: 'Project' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'strong',
-          null,
-          this.props.project.title
-        ),
-        ': ',
-        this.props.project.category,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'a',
-          { href: '#', onClick: this.deleteProject.bind(this, this.props.project.id) },
-          '\u274C'
-        )
-      );
-    }
-  }]);
-
-  return ProjectItem;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// propTypes is a way to validate your component's properties
-
-
-ProjectItem.propTypes = {
-  project: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
-  onDelete: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (ProjectItem);
-
-/***/ }),
-/* 317 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_uuid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_uuid__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
- // ES6
-
-var AddProject = function (_Component) {
-  _inherits(AddProject, _Component);
-
-  function AddProject() {
-    _classCallCheck(this, AddProject);
-
-    var _this = _possibleConstructorReturn(this, (AddProject.__proto__ || Object.getPrototypeOf(AddProject)).call(this));
-
-    _this.state = {
-      newProject: {}
-    };
-    return _this;
-  }
-
-  _createClass(AddProject, [{
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      if (this.refs.title.value === '') {
-        alert("Title is required.");
-      } else {
-        this.setState({ newProject: {
-            id: __WEBPACK_IMPORTED_MODULE_1_uuid___default.a.v4(),
-            title: this.refs.title.value,
-            category: this.refs.category.value
-          } }, function () {
-          //console.log(this.state);
-          this.props.addProject(this.state.newProject);
-        });
-      }
-
-      e.preventDefault();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var categories = ['Web Design', 'Web Development', 'Mobile Development'];
-
-      var categoryOptions = categories.map(function (category) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'option',
-          { key: category, value: category },
-          category
-        );
-      });
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h3',
-          null,
-          'Add Project'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'form',
-          { onSubmit: this.handleSubmit.bind(this) },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              null,
-              'Title'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', ref: 'title' })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              null,
-              'Category'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'select',
-              { ref: 'category' },
-              categoryOptions
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'submit', value: 'Submit' })
-          )
-        )
-      );
-    }
-  }]);
-
-  return AddProject;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// propTypes is a way to validate your component's properties
-
-
-AddProject.propTypes = {
-  categories: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
-  addProject: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (AddProject);
-
-/***/ }),
-/* 318 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TodoItem__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
- // ES6
-
-var Todos = function (_Component) {
-  _inherits(Todos, _Component);
-
-  function Todos() {
-    _classCallCheck(this, Todos);
-
-    return _possibleConstructorReturn(this, (Todos.__proto__ || Object.getPrototypeOf(Todos)).apply(this, arguments));
-  }
-
-  _createClass(Todos, [{
-    key: 'render',
-    value: function render() {
-      var todoItems = void 0;
-
-      if (this.props.todos) {
-        todoItems = this.props.todos.map(function (todo) {
-          //console.log(project);
-
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__TodoItem__["a" /* default */], { key: todo.title, todo: todo });
-        });
-      }
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'Todos' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h3',
-          null,
-          'ToDo List'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          null,
-          todoItems
-        )
-      );
-    }
-  }]);
-
-  return Todos;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// propTypes is a way to validate your component's properties
-
-
-Todos.propTypes = {
-  todos: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Todos);
-
-/***/ }),
-/* 319 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
- // ES6
-
-var TodoItem = function (_Component) {
-  _inherits(TodoItem, _Component);
-
-  function TodoItem() {
-    _classCallCheck(this, TodoItem);
-
-    return _possibleConstructorReturn(this, (TodoItem.__proto__ || Object.getPrototypeOf(TodoItem)).apply(this, arguments));
-  }
-
-  _createClass(TodoItem, [{
-    key: 'render',
-    value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'li',
-        { className: 'Todo' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'strong',
-          null,
-          this.props.todo.title
-        )
-      );
-    }
-  }]);
-
-  return TodoItem;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// propTypes is a way to validate your component's properties
-
-
-TodoItem.propTypes = {
-  todo: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (TodoItem);
 
 /***/ })
 /******/ ]);

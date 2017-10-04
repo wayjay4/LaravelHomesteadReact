@@ -35,6 +35,7 @@ render(
 */}
 
 // app.js : tutor2_reactjs_crashcourse
+{/*
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -44,9 +45,9 @@ render(
   <Master />,
   document.getElementById('root')
 );
+*/}
 
 // app.js : tutor3_reactjs_series1_14
-{/*
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -56,4 +57,3 @@ render(
   <Master />,
   document.getElementById('root')
 );
-*/}
