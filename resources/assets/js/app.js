@@ -71,7 +71,7 @@ render(
 
       <Route exact path="/" component={ Layout } />
       <Route path="/archives" component={ Archives } />
-      <Route path="/submit" component={ Submit } history={ history } />
+      <Route path="/submit" component={ Submit } />
     </div>
   </Router>,
   document.getElementById('root')
