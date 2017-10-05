@@ -3,14 +3,20 @@ import React, {Component} from 'react';
 import Title from './Header/Title';
 
 export default class Header extends Component {
-  render(){
-    // displaying passed in props
-    //console.log(this.props);
+  handleChange(e){
+    // event changes will provide an e object holding the event data from the calling element
+    const title = e.target.value;
 
-    // passing a prop to the Title component
+    // we calling the method passed down from the parent component
+    this.props.changeTitle(title);
+  }
+
+  render(){
     return (
       <div>
         <Title title={ this.props.title } />
+
+        <input value={ this.props.title } onChange={ this.handleChange.bind(this) } />
       </div>
     );
   }
