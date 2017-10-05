@@ -1,5 +1,7 @@
 // Layout.js
 import React, {Component} from 'react';
+import { Link } from 'react-router';
+//import { NavLink } from 'react-router-dom';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -21,10 +23,13 @@ export default class Layout extends Component {
     });
   }
 
+  navigate(){
+    //console.log(this.props);
+    this.props.history.pushState(null, "settings");
+    //this.props.history.replaceState(null, "settings");
+  }
+
   render(){
-    // note: when passing methods to another component, you must remember
-    // to 'bind' the method to this component, otherwise the method will
-    // operate as if it was created in the component it was passed to
     return (
       <div className="container">
         <Header
@@ -32,7 +37,25 @@ export default class Layout extends Component {
           changeTitle={ this.changeTitle.bind(this) }
         />
 
+        <hr />
+
         <p>Hello, my name is { this.state.firstname } { this.state.lastname }</p>
+
+        <hr />
+
+        <div>
+          <h1>Killer Instinct.net</h1>
+
+          <ul>
+            <li><Link to="/"><button>Home</button></Link></li>
+            <li><Link to="archives"><button>Archives</button></Link></li>
+            <li><button onClick={ this.navigate.bind(this) }>Settings</button></li>
+          </ul>
+        </div>
+
+        <div>{ this.props.children }</div>
+
+        <hr />
 
         <Footer />
       </div>

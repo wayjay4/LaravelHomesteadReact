@@ -50,10 +50,22 @@ render(
 // app.js : tutor3_reactjs_series1_14
 import React from 'react';
 import { render } from 'react-dom';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+//import PropTypes from 'prop-types';
+//import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import Layout from './components/tutor3_reactjs_series1_14/Layout';
+import Featured from './components/tutor3_reactjs_series1_14/Featured';
+import Archives from './components/tutor3_reactjs_series1_14/Archives';
+import Settings from './components/tutor3_reactjs_series1_14/Settings';
 
 render(
-  <Layout />,
+  <Router history={ hashHistory }>
+    <Route path="/" component={ Layout }>
+      <IndexRoute component={ Featured }></IndexRoute>
+      <Route path="archives" component={ Archives }></Route>
+      <Route path="settings" component={ Settings }></Route>
+    </Route>
+  </Router>,
   document.getElementById('root')
 );
