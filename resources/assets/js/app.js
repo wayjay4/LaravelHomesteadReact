@@ -52,11 +52,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import Layout from './components/tutor3_reactjs_series1_14/Layout';
 import Featured from './components/tutor3_reactjs_series1_14/Featured';
 import Archives from './components/tutor3_reactjs_series1_14/Archives';
 import Submit from './components/tutor3_reactjs_series1_14/Submit';
+
+const history = createBrowserHistory();
 
 render(
   <Router>
@@ -71,7 +74,7 @@ render(
 
       <Route exact path="/" component={ Layout } />
       <Route path="/archives" component={ Archives } />
-      <Route path="/submit" component={ Submit } />
+      <Route path="/submit" component={ Submit } history={ history } />
     </div>
   </Router>,
   document.getElementById('root')
