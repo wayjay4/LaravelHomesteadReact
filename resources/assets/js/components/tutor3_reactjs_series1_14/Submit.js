@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-export default class Settings extends Component {
+export default class Submit extends Component {
   render(){
     return(
-      <h3>Settings</h3>
+      <h3>Submit</h3>
     );
   }
 }
