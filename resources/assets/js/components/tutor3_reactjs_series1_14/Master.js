@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
-export default class Layout extends Component {
+export default class Master extends Component {
   constructor(){
     super();
 
@@ -32,8 +32,6 @@ export default class Layout extends Component {
         <hr />
 
         <p>Hello, my name is { this.state.firstname } { this.state.lastname }</p>
-
-        <div>{ this.props.children }</div>
 
         <hr />
 
