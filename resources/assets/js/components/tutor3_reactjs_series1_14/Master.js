@@ -32,10 +32,6 @@ export default class Master extends Component {
         <hr />
 
         <p>Hello, my name is { this.state.firstname } { this.state.lastname }</p>
-
-        <hr />
-
-        <Footer />
       </div>
     )
   }

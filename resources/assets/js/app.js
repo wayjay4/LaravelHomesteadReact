@@ -51,30 +51,33 @@ render(
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import Master from './components/tutor3_reactjs_series1_14/Master';
+import Navigation from './components/tutor3_reactjs_series1_14/Navigation';
 import Featured from './components/tutor3_reactjs_series1_14/Featured';
 import Archives from './components/tutor3_reactjs_series1_14/Archives';
+import Settings from './components/tutor3_reactjs_series1_14/Settings';
 import Submit from './components/tutor3_reactjs_series1_14/Submit';
+import Footer from './components/tutor3_reactjs_series1_14/Footer';
 
 const history = createBrowserHistory();
 
 render(
   <Router>
     <div>
-      <ul>
-        <li><NavLink to="/" exact activeClassName="activeNav"><button>Home</button></NavLink></li>
-        <li><NavLink to="/archives" activeClassName="activeNav"><button>Archives</button></NavLink></li>
-        <li><NavLink to="/submit" activeClassName="activeNav"><button>Submit</button></NavLink></li>
-      </ul>
+      <Navigation />
 
       <hr/>
 
       <Route exact path="/" component={ Master } />
       <Route path="/archives" component={ Archives } />
+      <Route path="/settings" component={ Settings } />
       <Route path="/submit" component={ Submit } history={ history } />
+
+      <hr />
+
+      <Footer />
     </div>
   </Router>,
   document.getElementById('root')
