@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default class Submit extends Component {
   constructor(){
@@ -26,7 +26,7 @@ export default class Submit extends Component {
 
         <button onClick={ this.submitRecipe }>Submit a recipe</button>
         <br />
-        <NavLink to="/settings">Go To Settings</NavLink>
+        <Link to="/settings">Go To Settings</Link>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Archives from './pages/Archives';
 import Featured from './pages/Featured';
@@ -19,16 +19,27 @@ export default class AppRoutes extends Component {
   render(){
     return(
       <div>
-        <Route exact={true} path="/" component={ Featured } />
-        <Route path="/archives" component={ Archives } />
-        <Route path="/settings" component={ Settings } />
-        <Route path="/submit" component={ Submit }  history={ history } />
-        <Route path="/makingitup" render={() => (
-          <div>
-            <h1>Another way to use Route</h1>
-            <Featured fname={ this.state.fname } lname={ this.state.lname } />
-          </div>
-        )} />
+        <Switch>
+          <Route exact={true} path="/" component={ Featured } />
+          <Route exact={true} path="/archives" component={ Archives } />
+          <Route exact={true} path="/settings" component={ Settings } />
+          <Route exact={true} path="/submit" component={ Submit }  history={ history } />
+          <Route exact={true} path="/makingitup" render={() => (
+            <div>
+              <h2>Another way to use Route</h2>
+              <Featured fname={ this.state.fname } lname={ this.state.lname } />
+            </div>
+          )} />
+
+          <Route render={function (){
+            return(
+              <div>
+                <h2>Display "page not found using 'Switch'" <br /> Another way to use Route </h2>
+                <p>PAGE NOT FOUND!</p>
+              </div>
+            )
+          }} />
+        </Switch>
       </div>
     );
   }
