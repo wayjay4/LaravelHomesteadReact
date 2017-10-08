@@ -22,6 +22,7 @@ export default class AppRoutes extends Component {
         <Switch>
           <Route exact={true} path="/" component={ Featured } />
           <Route exact={true} path="/archives" component={ Archives } />
+          <Route path="/archives/:article" component={ Archives } />
           <Route exact={true} path="/settings" component={ Settings } />
           <Route exact={true} path="/submit" component={ Submit }  history={ history } />
           <Route exact={true} path="/makingitup" render={() => (

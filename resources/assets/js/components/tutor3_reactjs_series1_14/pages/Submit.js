@@ -26,6 +26,7 @@ export default class Submit extends Component {
 
         <button onClick={ this.submitRecipe }>Submit a recipe</button>
         <br />
+        <Link to="/archives">Go To Archives</Link>
         <Link to="/settings">Go To Settings</Link>
       </div>
     );
