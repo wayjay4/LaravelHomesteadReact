@@ -66665,7 +66665,7 @@ var AppRoutes = function (_Component) {
           null,
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__pages_Featured__["a" /* default */] }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/archives', component: __WEBPACK_IMPORTED_MODULE_2__pages_Archives__["a" /* default */] }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { path: '/archives/:article', component: __WEBPACK_IMPORTED_MODULE_2__pages_Archives__["a" /* default */] }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/archives/:article', component: __WEBPACK_IMPORTED_MODULE_2__pages_Archives__["a" /* default */] }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/settings', component: __WEBPACK_IMPORTED_MODULE_4__pages_Settings__["a" /* default */] }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/submit', component: __WEBPACK_IMPORTED_MODULE_5__pages_Submit__["a" /* default */], history: history }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["Route"], { exact: true, path: '/makingitup', render: function render() {

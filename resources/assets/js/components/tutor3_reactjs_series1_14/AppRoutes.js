@@ -20,12 +20,12 @@ export default class AppRoutes extends Component {
     return(
       <div>
         <Switch>
-          <Route exact={true} path="/" component={ Featured } />
-          <Route exact={true} path="/archives" component={ Archives } />
-          <Route path="/archives/:article" component={ Archives } />
-          <Route exact={true} path="/settings" component={ Settings } />
-          <Route exact={true} path="/submit" component={ Submit }  history={ history } />
-          <Route exact={true} path="/makingitup" render={() => (
+          <Route exact path="/" component={ Featured } />
+          <Route exact path="/archives" component={ Archives } />
+          <Route exact path="/archives/:article" component={ Archives } />
+          <Route exact path="/settings" component={ Settings } />
+          <Route exact path="/submit" component={ Submit }  history={ history } />
+          <Route exact path="/makingitup" render={() => (
             <div>
               <h2>Another way to use Route</h2>
               <Featured fname={ this.state.fname } lname={ this.state.lname } />
